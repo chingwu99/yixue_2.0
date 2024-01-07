@@ -20,6 +20,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import ModeToggle from "@/components/ModeToggle";
 
 const Navbar = () => {
   const [isMenuToggled, setIsMenuToggled] = useState(false);
@@ -96,7 +97,7 @@ const Navbar = () => {
                     </button>
                   </>
                 )}
-                {/* <ModeToggle /> */}
+                <ModeToggle />
               </div>
             </div>
 
