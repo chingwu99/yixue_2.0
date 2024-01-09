@@ -25,7 +25,7 @@ const SectionOne = async () => {
           <Image
             src={yixue}
             alt="yixue"
-            className="animate-flot mt-5 flex w-[20rem] md:mt-0 xl:w-[22rem]"
+            className="animate-flot relative right-3 mt-5 flex w-[20rem] md:right-0 md:mt-0 xl:w-[22rem]"
           />
         </div>
       </div>
