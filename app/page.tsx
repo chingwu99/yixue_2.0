@@ -1,5 +1,7 @@
-import Image from "next/image";
+import SectionOne from "./SectionOne";
 
-export default function Home() {
-  return <main className=" flex flex-wrap  text-red-400"></main>;
-}
+const Home = async () => {
+  return <SectionOne />;
+};
+
+export default Home;
