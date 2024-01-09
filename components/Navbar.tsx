@@ -24,7 +24,7 @@ import ModeToggle from "@/components/ModeToggle";
 
 const Navbar = () => {
   const [isMenuToggled, setIsMenuToggled] = useState(false);
-  const currentUserUid = true;
+  const currentUserUid = false;
 
   return (
     <nav className="border-darkModeBorder fixed top-0 z-30 flex w-full items-center justify-between  border-b-2 bg-background py-6 shadow-lg">
@@ -88,12 +88,10 @@ const Navbar = () => {
                   >
                     登入
                   </p>
-                  <button
-                    className=" bg-yellow text-red h-10 w-24 rounded-md shadow-md  transition duration-300  ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-red-500 hover:text-white"
-                    onClick={() => {}}
-                  >
+
+                  <Button className="shadow-md  transition duration-300  ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-red-500 hover:text-white">
                     立刻加入
-                  </button>
+                  </Button>
                 </>
               )}
               <ModeToggle />

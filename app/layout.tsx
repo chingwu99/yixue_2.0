@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ClientOnly from "@/components/ClientOnly";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,9 +29,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
             enableSystem
             disableTransitionOnChange
           >
-            <Navbar />
+            <ClientOnly>
+              <Navbar />
+            </ClientOnly>
             {children}
-            <Footer />
+            <ClientOnly>
+              <Footer />
+            </ClientOnly>
           </ThemeProvider>
         </body>
       </html>
