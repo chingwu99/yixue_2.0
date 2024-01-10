@@ -8,7 +8,7 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
+  // CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -41,7 +41,7 @@ const featureDatas: FeatureDataProp[] = [
   },
 ];
 
-const SectionTwo: React.FC<SectionTwoProp> = async ({}) => {
+const SectionTwo: React.FC<SectionTwoProp> = async () => {
   return (
     <section className=" flex  bg-gray-300 pt-20 ">
       <div className="container mx-auto grid grid-cols-1 gap-6 py-5 sm:px-20 md:grid-cols-3 md:gap-3 md:px-3  lg:px-44 ">
