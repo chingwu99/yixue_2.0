@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 //import icon
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 
@@ -21,10 +20,29 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import ModeToggle from "@/components/ModeToggle";
+//import Custom Hook
+import useRegisterModal from "@/hooks/useRegisterModal";
+import useLoginModal from "@/hooks/useLoginModal";
+import useModal from "@/hooks/useModal";
 
 const Navbar = () => {
   const [isMenuToggled, setIsMenuToggled] = useState(false);
+  const modal = useModal();
+  const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
   const currentUserUid = false;
+
+  const registerModalHandler = useCallback(() => {
+    modal.onOpen();
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [modal, loginModal, registerModal]);
+
+  const loginModalHandler = useCallback(() => {
+    modal.onOpen();
+    loginModal.onOpen();
+    registerModal.onClose();
+  }, [modal, loginModal, registerModal]);
 
   return (
     <nav className="border-darkModeBorder fixed top-0 z-30 flex w-full items-center justify-between  border-b-2 bg-background py-6 shadow-lg">
@@ -43,7 +61,7 @@ const Navbar = () => {
               <Link href="/" />
 
               <Link
-                href="/"
+                href="/explore"
                 className="hover:text-orange text-base transition duration-500"
               >
                 分享廣場
@@ -83,13 +101,16 @@ const Navbar = () => {
               ) : (
                 <>
                   <p
-                    onClick={() => {}}
+                    onClick={loginModalHandler}
                     className="hover:text-orange cursor-pointer text-base transition duration-500"
                   >
                     登入
                   </p>
 
-                  <Button className="shadow-md  transition duration-300  ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-red-500 hover:text-white">
+                  <Button
+                    className="shadow-md  transition duration-300  ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-red-500 hover:text-white"
+                    onClick={registerModalHandler}
+                  >
                     立刻加入
                   </Button>
                 </>
