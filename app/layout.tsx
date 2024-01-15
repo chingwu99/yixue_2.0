@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ClientOnly from "@/components/ClientOnly";
-import Modal from "@/components/modals/Modal";
+// import Modal from "@/components/modals/Modal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,7 +31,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             disableTransitionOnChange
           >
             <ClientOnly>
-              <Modal />
+              {/* <Modal /> */}
               <Navbar />
             </ClientOnly>
             {children}
