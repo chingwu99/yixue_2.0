@@ -3,34 +3,59 @@
 import useRegisterModal from "@/hooks/useRegisterModal";
 import useLoginModal from "@/hooks/useLoginModal";
 import { useTheme } from "next-themes";
-import { useForm } from "react-hook-form";
+
 import { LuAlertCircle } from "react-icons/lu";
 import redLogo from "@/public/images/logo/redLogo.svg";
 import whiteLogo from "@/public/images/logo/whiteLogo.svg";
-import { useCallback } from "react";
+
 import Image from "next/image";
 
-type FormData = {
-  email: string;
-  password: string;
-  displayName: string;
-};
+import axios from "axios";
+import { useCallback, useState } from "react";
+// import { AiFillGithub } from "react-icons/ai";
+// import { FcGoogle } from "react-icons/fc";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+
+// import { toast } from "react-hot-toast";
+// import { signIn } from "next-auth/react";
 
 const SignupModal = () => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
   const { theme } = useTheme();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     register,
-    // setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
-
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  } = useForm<FieldValues>({
+    defaultValues: {
+      neme: "",
+      email: "",
+      password: "",
+    },
   });
+
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    setIsLoading(true);
+
+    axios
+      .post(`/api/register`, data)
+      .then(() => {
+        // toast.success("Success!");
+        registerModal.onClose();
+        loginModal.onOpen();
+      })
+      .catch((error) => {
+        // toast.error("Something Went Wrong.");
+        console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   console.log("errors", errors);
 
@@ -60,7 +85,7 @@ const SignupModal = () => {
             註冊帳號
           </h2>
           <form
-            onSubmit={onSubmit}
+            onSubmit={handleSubmit(onSubmit)}
             className="flex w-full flex-col  items-center "
           >
             <label htmlFor="signUp-displayName" className="my-2 w-full">
