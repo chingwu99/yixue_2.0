@@ -2,37 +2,66 @@
 //import Custom Hook
 import useRegisterModal from "@/hooks/useRegisterModal";
 import useLoginModal from "@/hooks/useLoginModal";
+import useModal from "@/hooks/useModal";
 import { useTheme } from "next-themes";
 //import react-hook-form
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 //import icon
 import { LuAlertCircle } from "react-icons/lu";
 import { FcGoogle } from "react-icons/fc";
 //
 import redLogo from "@/public/images/logo/redLogo.svg";
 import whiteLogo from "@/public/images/logo/whiteLogo.svg";
-import { useCallback } from "react";
+
 import Image from "next/image";
 
-type FormData = {
-  email: string;
-  password: string;
-};
+import { signIn } from "next-auth/react";
+
+import { useCallback, useState } from "react";
+import { AiFillGithub } from "react-icons/ai";
+
+import { useRouter } from "next/navigation";
 
 const LoginModal = () => {
+  const router = useRouter();
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
+  const modal = useModal();
   const { theme } = useTheme();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
-
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  } = useForm<FieldValues>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
+
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    setIsLoading(true);
+
+    signIn("credentials", {
+      ...data,
+      redirect: false,
+    }).then((callback) => {
+      setIsLoading(false);
+
+      if (callback?.ok) {
+        // toast.success("Logged in");
+        router.refresh();
+        loginModal.onClose();
+        modal.onClose();
+      }
+      if (callback?.error) {
+        console.log(callback.error);
+        // toast.error(callback.error);
+      }
+    });
+  };
 
   console.log("errors", errors);
 
@@ -61,7 +90,10 @@ const LoginModal = () => {
           <h2 className="mb-5  text-xl font-medium tracking-wider md:text-4xl">
             登入帳號
           </h2>
-          <form onSubmit={onSubmit} className="flex w-full flex-col">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex w-full flex-col"
+          >
             <label htmlFor="signUp-email" className="my-2">
               <input
                 type="text"
@@ -131,7 +163,14 @@ const LoginModal = () => {
               <div className=" h-[1px]  w-10"></div>
             </div>
             <div className="my-3 flex">
-              <FcGoogle className="mx-2 h-10 w-10 cursor-pointer" />
+              <FcGoogle
+                className="mx-2 h-10 w-10 cursor-pointer"
+                onClick={() => signIn("google")}
+              />
+              <AiFillGithub
+                className="mx-2 h-10 w-10 cursor-pointer"
+                onClick={() => signIn("github")}
+              />
             </div>
           </div>
 

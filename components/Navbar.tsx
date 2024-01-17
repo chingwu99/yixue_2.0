@@ -24,13 +24,21 @@ import ModeToggle from "@/components/ModeToggle";
 import useRegisterModal from "@/hooks/useRegisterModal";
 import useLoginModal from "@/hooks/useLoginModal";
 import useModal from "@/hooks/useModal";
+import { SafeUser } from "@/types";
+import { signOut } from "next-auth/react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Image from "next/image";
 
-const Navbar = () => {
+interface NavbarProps {
+  currentUser?: SafeUser | null;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
+  console.log(currentUser);
   const [isMenuToggled, setIsMenuToggled] = useState(false);
   const modal = useModal();
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
-  const currentUserUid = false;
 
   const registerModalHandler = useCallback(() => {
     modal.onOpen();
@@ -68,35 +76,31 @@ const Navbar = () => {
               </Link>
             </div>
             <div className="flex items-center justify-between gap-8">
-              {currentUserUid ? (
+              {currentUser ? (
                 <>
-                  <p className="hover:text-orange cursor-pointer text-base transition duration-500">
+                  <p
+                    className="hover:text-orange cursor-pointer text-base transition duration-500"
+                    onClick={() => signOut()}
+                  >
                     登出
                   </p>
-
-                  {false ? (
-                    <Link
-                      href="/"
-                      className="border-gray flex  h-10 w-10 overflow-hidden rounded-[50%] border-2"
-                    >
-                      {/* <Image
-                            src={userData?.profileImg}
-                            alt="圖片預覽"
-                            className="h-full w-full object-cover"
-                          /> */}
-                    </Link>
-                  ) : (
-                    <Link
-                      href="/"
-                      className=" border-gray100Border bg-gray flex  h-10 w-10 cursor-pointer flex-col items-center justify-center rounded-[50%] border-2 bg-gray-300"
-                    >
-                      {/* <Image src={defaultProfileImg} alt="" /> */}
-                    </Link>
-                  )}
 
                   <button className=" bg-yellow  text-red  h-10 w-24 rounded-md shadow-md  transition duration-300  ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-red-500 hover:text-white">
                     新增分享
                   </button>
+
+                  <Avatar>
+                    <AvatarImage src={`${currentUser?.image}`} />
+                    <AvatarFallback>
+                      <Image
+                        src="/images/placeholder.jpg"
+                        className=" object-cover"
+                        height="30"
+                        width="30"
+                        alt="Avater"
+                      />
+                    </AvatarFallback>
+                  </Avatar>
                 </>
               ) : (
                 <>

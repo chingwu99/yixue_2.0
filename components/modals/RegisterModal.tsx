@@ -32,7 +32,7 @@ const SignupModal = () => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      neme: "",
+      name: "",
       email: "",
       password: "",
     },
@@ -88,18 +88,18 @@ const SignupModal = () => {
             onSubmit={handleSubmit(onSubmit)}
             className="flex w-full flex-col  items-center "
           >
-            <label htmlFor="signUp-displayName" className="my-2 w-full">
+            <label htmlFor="signUp-name" className="my-2 w-full">
               <input
                 type="text"
                 placeholder="請輸入姓名"
-                id="signUp-displayName"
+                id="signUp-name"
                 className="  text-red-foreground h-10 w-full rounded-md  border ps-3"
-                {...register("displayName", {
+                {...register("name", {
                   required: true,
                 })}
               />
             </label>
-            {errors.displayName && errors.displayName.type === "required" && (
+            {errors.name && errors.name.type === "required" && (
               <span className=" flex w-full items-center text-popover-foreground">
                 <LuAlertCircle className="me-1" />
                 請輸入姓名

@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ClientOnly from "@/components/ClientOnly";
 import Modal from "@/components/modals/Modal";
+import getCurrentUser from "./actions/getCurrentUser";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,9 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const currentUser = await getCurrentUser();
+
   return (
     <>
       <html lang="en" suppressHydrationWarning>
@@ -32,7 +35,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           >
             <ClientOnly>
               <Modal />
-              <Navbar />
+              <Navbar currentUser={currentUser} />
             </ClientOnly>
             {children}
             <ClientOnly>
